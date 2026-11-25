@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apps do dia a dia</title>
+<meta name="description" content="Menu de apps do dia a dia.">
+<link rel="icon" href="data:,">
+<style>
+  /* ---------- Arte: troque aqui quando as imagens chegarem (ver README) ---------- */
+  :root {
+    --fundo: none;                 /* depois: url("assets/fundo.webp") */
+    --veu: rgba(255, 255, 255, .62); /* véu claro por cima da imagem de fundo */
+    --base: #eef5f0;              /* cor do fundo enquanto não há imagem */
+    --mancha-1: rgba(18, 130, 95, .16);
+    --mancha-2: rgba(212, 162, 76, .18);
+    --texto: #2b2530;
+    --texto-suave: #5d5563;
+    --ouro-claro: #f6dc9a;
+    --ouro: #d4a24c;
+    --ouro-escuro: #8a5f14;
+  }
+  /* ---------- Cores de cada família de botão ---------- */
+  .vinho { --escuro: #4f0505; --medio: #a41414; --sombra: rgba(139, 10, 10, .32); }
+  .azul  { --escuro: #111a55; --medio: #2f45b8; --sombra: rgba(32, 48, 150, .32); }
+  .verde { --escuro: #073f31; --medio: #12825f; --sombra: rgba(10, 100, 72, .32); }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--texto);
+    background: var(--base);
+    display: flex;
+    flex-direction: column;
+  }
+  /* Fundo fixo em camada própria (background-attachment: fixed falha no iOS) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(var(--veu), var(--veu)),
+      var(--fundo) center / cover no-repeat,
+      radial-gradient(60% 55% at 12% 8%, var(--mancha-1), transparent 70%),
+      radial-gradient(55% 60% at 92% 96%, var(--mancha-2), transparent 70%),
+      var(--base);
+  }
+  .voltar {
+    position: absolute; top: 16px; left: 16px;
+    display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px;
+    font-weight: 600; font-size: 15px; text-decoration: none; color: var(--texto);
+    background: rgba(255, 255, 255, .78);
+    border: 2px solid var(--ouro); border-radius: 999px;
+  }
+  .voltar:hover { background: #fff; }
+  header { text-align: center; padding: 44px 16px 10px; }
+  .simbolo { display: block; width: 132px; height: 132px; margin: 0 auto 10px; object-fit: contain; }
+  .sobretitulo {
+    margin: 0 0 4px; font-size: 14px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ouro-escuro);
+  }
+  h1 { margin: 0; font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -.01em; text-wrap: balance; }
+  .chamada { margin: 8px auto 0; max-width: 34em; font-size: 17px; color: var(--texto-suave); text-wrap: pretty; }
+  main { flex: 1; padding: 22px 16px 44px; }
+  .grade {
+    list-style: none; margin: 0 auto; padding: 0; max-width: 1180px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 22px;
+  }
+  .grade li { width: min(372px, 100%); }
+
+  /* ---------- Botão (mesma anatomia dos botões dos Painéis: ícone | traço | nome) ---------- */
+  .botao {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; gap: 16px;
+    min-height: 112px; padding: 16px 22px 16px 16px;
+    border: 2px solid transparent; border-radius: 20px;
+    color: #fff; text-decoration: none;
+    background:
+      linear-gradient(135deg, var(--escuro) 0%, var(--medio) 46%, var(--escuro) 100%) padding-box,
+      linear-gradient(135deg, var(--ouro-claro), #a87722 45%, var(--ouro-claro) 100%) border-box;
+    box-shadow: 0 8px 18px var(--sombra), inset 0 1px 0 rgba(255, 255, 255, .28);
+    transition: transform .18s ease, filter .18s ease;
+  }
+  /* Brilho no alto e arco dourado no canto, como na arte dos Painéis */
+  .botao::before {
+    content: ""; position: absolute; inset: 0 0 52% 0;
+    background: linear-gradient(rgba(255, 255, 255, .16), rgba(255, 255, 255, 0));
+    pointer-events: none;
+  }
+  .botao::after {
+    content: ""; position: absolute; right: -150px; bottom: -262px;
+    width: 300px; height: 300px; border-radius: 50%;
+    border: 3px solid rgba(246, 220, 154, .7);
+    box-shadow: 0 0 16px rgba(246, 220, 154, .4);
+    pointer-events: none;
+  }
+  .botao:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.1); }
+  .botao:active { transform: translateY(0) scale(.99); }
+  .botao:focus-visible, .voltar:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
+  .icone {
+    flex: none; display: grid; place-items: center;
+    width: 76px; height: 76px; border-radius: 14px;
+    border: 1.5px solid rgba(246, 220, 154, .85);
+    background: rgba(0, 0, 0, .24);
+    color: var(--ouro-claro);
+  }
+  .icone svg { width: 46px; height: 46px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .icone .cheio { fill: currentColor; stroke: none; }
+  .traco { flex: none; align-self: stretch; width: 1.5px; margin: 6px 0; background: linear-gradient(transparent, var(--ouro-claro), transparent); }
+  .rotulo { position: relative; z-index: 1; display: flex; flex-direction: column; min-width: 0; line-height: 1.12; }
+  .linha { font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, .95); }
+  .nome {
+    font-size: 29px; font-weight: 800; letter-spacing: -.01em; color: var(--ouro-claro);
+    text-shadow: 0 2px 3px rgba(0, 0, 0, .35);
+  }
+  footer { text-align: center; font-size: 13px; padding: 0 16px 20px; color: var(--texto-suave); }
+
+  @media (max-width: 560px) {
+    header { padding-top: 76px; }
+    .simbolo { width: 104px; height: 104px; }
+    .grade { gap: 12px; }
+    .botao { min-height: 96px; }
+    .icone { width: 64px; height: 64px; }
+    .icone svg { width: 38px; height: 38px; }
+    .nome { font-size: 25px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .botao { transition: none; } }
+</style>
+</head>
+<body>
+<a class="voltar" href="../geral/">← Menu geral</a>
+<header>
+  <!-- Símbolo provisório em código. Com a arte pronta, troque este <svg> por:
+       <img class="simbolo" src="assets/simbolo.webp" width="512" height="512" alt=""> -->
+  <svg class="simbolo" viewBox="0 0 120 120" aria-hidden="true">
+    <defs><linearGradient id="ouro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc9a"/><stop offset=".5" stop-color="#a87722"/><stop offset="1" stop-color="#f6dc9a"/></linearGradient><linearGradient id="cor" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12825f"/><stop offset="1" stop-color="#073f31"/></linearGradient></defs>
+    <g stroke="url(#ouro)" stroke-width="4"><rect x="16" y="16" width="40" height="40" rx="11" fill="url(#cor)"/><rect x="64" y="16" width="40" height="40" rx="11" fill="url(#cor)"/><rect x="16" y="64" width="40" height="40" rx="11" fill="url(#cor)"/><rect x="64" y="64" width="40" height="40" rx="11" fill="#fff"/></g>
+    <path d="M74 85l8 8 14-16" fill="none" stroke="#12825f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1>Apps do dia a dia</h1>
+  <p class="chamada">Ajudas para a cozinha, as compras, as viagens e a rotina.</p>
+</header>
+<main>
+  <nav aria-label="Apps">
+    <ul class="grade">
+      <li><a class="botao verde" href="../receitas-dinamicas/" target="_blank" rel="noopener" aria-label="A Gosto: receitas que se adaptam a quem cozinha (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M3 11h18M9.5 7.5c0-1.2 1.2-1.6 1.2-2.9M13.5 7.5c0-1.2 1.2-1.6 1.2-2.9"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Receitas</span><span class="nome">A Gosto</span></span></a></li>
+      <li><a class="botao verde" href="../lista-de-compras/" target="_blank" rel="noopener" aria-label="Lista de Compras (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h16l-1.5 8.8a2 2 0 0 1-2 1.7h-9a2 2 0 0 1-2-1.7z"/><path d="M8 9.5l3-5.5M16 9.5L13 4M9.5 13.2v3.3M12 13.2v3.3M14.5 13.2v3.3"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Lista de</span><span class="nome">Compras</span></span></a></li>
+      <li><a class="botao verde" href="../planejamento-viagem/" target="_blank" rel="noopener" aria-label="Planejamento da Viagem (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.4"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Planejamento da</span><span class="nome">Viagem</span></span></a></li>
+      <li><a class="botao verde" href="../carteira/" target="_blank" rel="noopener" aria-label="Carteira: alocação e metas (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.2A8.5 8.5 0 1 0 19.8 13H11z"/><path d="M14.5 3.3a8.5 8.5 0 0 1 6.2 6.2h-6.2z"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Alocação e metas</span><span class="nome">Carteira</span></span></a></li>
+      <li><a class="botao verde" href="../prancheta/" target="_blank" rel="noopener" aria-label="Prancheta: treinos com personal trainer (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7.5v9M17 7.5v9M4 10v4M20 10v4M7 12h10"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Treinos</span><span class="nome">Prancheta</span></span></a></li>
+      <!-- Novos apps entram aqui: copie uma linha <li> acima e troque ícone, textos e endereço -->
+    </ul>
+  </nav>
+</main>
+<footer>Apps do dia a dia</footer>
+</body>
+</html>
