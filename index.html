@@ -97,8 +97,8 @@
     box-shadow: 0 0 16px rgba(246, 220, 154, .4);
     pointer-events: none;
   }
-  .botao:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.1); }
-  .botao:active { transform: translateY(0) scale(.99); }
+  a.botao:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.1); }
+  a.botao:active { transform: translateY(0) scale(.99); }
   .botao:focus-visible, .voltar:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
   .icone {
     flex: none; display: grid; place-items: center;
@@ -116,6 +116,19 @@
     font-size: 29px; font-weight: 800; letter-spacing: -.01em; color: var(--ouro-claro);
     text-shadow: 0 2px 3px rgba(0, 0, 0, .35);
   }
+  .nome.longo { font-size: 24px; }
+  /* ---------- Em breve: botão sem clique, em cor apagada, com selo ---------- */
+  .azul.breve  { --escuro: #2b3050; --medio: #5a628f; --sombra: rgba(60, 66, 110, .2); }
+  .verde.breve { --escuro: #243d36; --medio: #55857a; --sombra: rgba(50, 90, 78, .2); }
+  .breve { cursor: default; }
+  .breve .icone, .breve .nome { opacity: .82; }
+  .selo {
+    position: absolute; top: 9px; right: 11px; z-index: 2;
+    padding: 3px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: #3a2a05; background: linear-gradient(135deg, var(--ouro-claro), var(--ouro));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+  }
   footer { text-align: center; font-size: 13px; padding: 0 16px 20px; color: var(--texto-suave); }
 
   @media (max-width: 560px) {
@@ -126,6 +139,7 @@
     .icone { width: 64px; height: 64px; }
     .icone svg { width: 38px; height: 38px; }
     .nome { font-size: 25px; }
+    .nome.longo { font-size: 22px; }
   }
   @media (prefers-reduced-motion: reduce) { .botao { transition: none; } }
 </style>
@@ -141,17 +155,18 @@
     <path d="M74 85l8 8 14-16" fill="none" stroke="#12825f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   <h1>Apps do dia a dia</h1>
-  <p class="chamada">Ajudas para a cozinha, as compras, as viagens e a rotina.</p>
+  <p class="chamada">Ajudas para a cozinha, as finanças, os treinos e a rotina.</p>
 </header>
 <main>
   <nav aria-label="Apps">
     <ul class="grade">
       <li><a class="botao verde" href="../receitas-dinamicas/" target="_blank" rel="noopener" aria-label="A Gosto: receitas que se adaptam a quem cozinha (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M3 11h18M9.5 7.5c0-1.2 1.2-1.6 1.2-2.9M13.5 7.5c0-1.2 1.2-1.6 1.2-2.9"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Receitas</span><span class="nome">A Gosto</span></span></a></li>
-      <li><a class="botao verde" href="../lista-de-compras/" target="_blank" rel="noopener" aria-label="Lista de Compras (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h16l-1.5 8.8a2 2 0 0 1-2 1.7h-9a2 2 0 0 1-2-1.7z"/><path d="M8 9.5l3-5.5M16 9.5L13 4M9.5 13.2v3.3M12 13.2v3.3M14.5 13.2v3.3"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Lista de</span><span class="nome">Compras</span></span></a></li>
-      <li><a class="botao verde" href="../planejamento-viagem/" target="_blank" rel="noopener" aria-label="Planejamento da Viagem (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.4"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Planejamento da</span><span class="nome">Viagem</span></span></a></li>
       <li><a class="botao verde" href="../carteira/" target="_blank" rel="noopener" aria-label="Carteira: alocação e metas (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.2A8.5 8.5 0 1 0 19.8 13H11z"/><path d="M14.5 3.3a8.5 8.5 0 0 1 6.2 6.2h-6.2z"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Alocação e metas</span><span class="nome">Carteira</span></span></a></li>
       <li><a class="botao verde" href="../prancheta/" target="_blank" rel="noopener" aria-label="Prancheta: treinos com personal trainer (abre em nova aba)"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7.5v9M17 7.5v9M4 10v4M20 10v4M7 12h10"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Treinos</span><span class="nome">Prancheta</span></span></a></li>
-      <!-- Novos apps entram aqui: copie uma linha <li> acima e troque ícone, textos e endereço -->
+      <!-- Em breve: botões sem clique. Quando o projeto for publicado, troque a linha por uma igual às de cima -->
+      <li><div class="botao verde breve"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.4"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Plano</span><span class="nome">Viagem Certa</span></span><span class="selo">Em breve</span></div></li>
+      <li><div class="botao verde breve"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h16l-1.5 8.8a2 2 0 0 1-2 1.7h-9a2 2 0 0 1-2-1.7z"/><path d="M8 9.5l3-5.5M16 9.5L13 4M9.5 13.2v3.3M12 13.2v3.3M14.5 13.2v3.3"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Compra</span><span class="nome">Planejada</span></span><span class="selo">Em breve</span></div></li>
+      <li><div class="botao verde breve"><span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5L5.6 8l2.6-3M4 12.5L5.6 14l2.6-3M4 18.5L5.6 20l2.6-3M12 7h8M12 13h8M12 19h8"/></svg></span><span class="traco"></span><span class="rotulo"><span class="linha">Organizador</span><span class="nome longo">Pessoal com IA</span></span><span class="selo">Em breve</span></div></li>
     </ul>
   </nav>
 </main>

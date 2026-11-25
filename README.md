@@ -18,6 +18,8 @@ Cada botão é um `<li>` em `index.html`.
 - **Adicionar:** copie um `<li>` existente e troque quatro coisas: o endereço (`href`), a descrição lida por leitores de tela (`aria-label`), a linha de cima (`class="linha"`) e o nome (`class="nome"`).
 - **Ícone:** é o desenho dentro de `<svg>`. Dá para repetir um ícone existente ou pedir um novo.
 - **Tirar:** apague o `<li>` do app.
+- **Em breve:** projeto ainda não publicado entra como um bloco `<div class="botao verde breve">`, sem endereço, com o selo "Em breve". Não tem clique. Esses botões ficam depois dos publicados.
+- **Publicou um "Em breve":** apague o `<li>` dele e crie um botão normal, copiando um dos publicados e aproveitando o mesmo ícone.
 
 Os endereços são relativos (`../carteira/`): funcionam enquanto o app estiver publicado na mesma conta. Para um app em outro endereço, use o endereço completo.
 
